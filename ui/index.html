@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <script src="jquery.min.js"></script>
+      <script>
+         $(document).ready(function(){
+		
+			$('#displayonTable tr').html('');
+			$('#resultSize').html('0');
+			$("#phoneNumber").keyup(function(){
+         
+           var input = $("#phoneNumber").val();
+		   
+		   $.ajax({
+    url: 'http://localhost:8081/api/v1/phone/'+input,
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    type: "GET",
+    dataType: "json",
+    data: {
+    },
+    success: function (result) {
+	$('#displayonTable tr').html('');
+	$('#resultSize').html('0');
+	if(result.length==0){
+	$('#displayonTable tr:last').after('<tr><td bgcolor="#669999"><font color="#ff0000">No data to display</font></td></tr>');
+	
+	}else{
+		
+		$('#resultSize').html(result.length);
+		$.each(result, function(index, value) {
+		if('undefined'!=value){
+		$('#displayonTable tr:last').after('<tr><td>'+value+'</td></tr>');
+		}
+		});
+		}
+  
+    },
+    error: function (error) {
+	$('#displayonTable tr').html('');
+	$('#resultSize').html('0');
+	
+	if('undefined' === error.message || error.message === 'null' || error.status === 0){
+		$('#displayonTable tr:last').after('<tr><td bgcolor="#5D7B9D"><font color="red">Error Throwing from The Server</font></td></tr>');
+		
+	}
+
+	
+    }
+});
+
+		  
+          
+         
+           });
+         
+         });
+         
+      </script>
+	  
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 25%;
+  align:centre;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+.scrollit {
+    overflow:scroll;
+    height:600px;
+}
+</style>
+   </head>
+   <body align='center'>
+<div align='center'>
+<p><h2>Start to type number in the input field to search the Phonenumber:</h2></p>  
+<input id="phoneNumber" type="text" placeholder="Search phone Number here.." maxlength="10" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+</div>
+<br><br><br><br>
+<div class="scrollit">
+<table align='center'>
+  <thead>
+  <tr>
+    <th>Phone Number List ( <label id="resultSize">0</label> ) </th>
+  </tr>
+  </thead>
+  <tbody id="displayonTable">
+ <tr>
+ </tr>
+  
+  </tbody>
+</table>
+  </div>
+<p></p>
+
+   </body>
+</html>
