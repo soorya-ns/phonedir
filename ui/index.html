@@ -1,116 +1,150 @@
 <!DOCTYPE html>
 <html>
-   <head>
-      <script src="jquery.min.js"></script>
-      <script>
-         $(document).ready(function(){
-		
-			$('#displayonTable tr').html('');
-			$('#resultSize').html('0');
-			$("#name").keyup(function(){
-         
-           var input = $("#name").val();
-		 if(input != '' && input != null && input.length > 0 && input != 'undefined'){  
-		   $.ajax({
-    url: 'http://localhost:8080/api/v1/name/'+input,
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    type: "GET",
-    dataType: "json",
-    data: {
-    },
-    success: function (result) {
-	$('#displayonTable tr').html('');
-	$('#resultSize').html('0');
-	if(result.length==0){
-	$('#displayonTable tr:last').after('<tr><td bgcolor="#669999"><font color="#ff0000">No data to display</font></td></tr>');
-	
-	}else{
-		
-		$('#resultSize').html(result.length);
-		$.each(result, function(index, value) {
-		
-		$('#displayonTable tr:last').after('<tr><td>'+value.ownerName+'</td><td>'+value.number+'</td></tr>');
-		
-		});
+	<head>
+		<script src="jquery.min.js"></script>
+		<script>
+			 $(document).ready(function(){
+
+				$('#displayonTable tr').html('');
+				$('#resultSize').html('0');
+				$("#name").keyup(function(){
+			 
+				   var input = $("#name").val();
+				   if(input != '' && input != null && input.length > 0 && input != 'undefined'){  
+				   $.ajax({
+							url: 'http://localhost:8080/api/v1/name/'+input,
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							type: "GET",
+							dataType: "json",
+							data: {
+							},
+							success: function (result) {
+							$('#displayonTable tr').html('');
+							$('#resultSize').html('0');
+								
+								$('#resultSize').html(result.length);
+								$.each(result, function(index, value) {
+									$('#displayonTable tr:last').after(
+									'<tr><td>'+value.ownerName+
+									'</td><td>'+value.number+
+									'</td></tr>');
+									});
+
+							},
+							error: function (error){
+							$('#displayonTable tr').html('');
+							$('#resultSize').html('0');
+							
+							$('#displayonTable tr:last').after(
+								'<tr>'+
+									'<td bgcolor="#cccc00">'+
+										'<font color="red">'+
+											'<b>Code</b>:5001'+
+											
+											'<br/>'+
+											'<b>Error</b>: <p>Remote Server is not responding.</p>'+
+										
+										'</font>'+
+									'</td>'+
+									'<td bgcolor="#cccc00">'+
+								'</tr>'
+							);
+							console.log(error.responseJSON.status)
+							console.log(error.responseJSON.code)
+							console.log(error.responseJSON.message)
+							console.log(error.responseJSON.display)
+							console.log(error.responseJSON.description)
+							console.log(error.responseJSON.apiPath)
+							$('#displayonTable tr').html('');
+							$('#resultSize').html('0');
+							$('#displayonTable tr:last').after(
+								'<tr>'+
+									'<td bgcolor="#cccc00" >'+
+										'<font color="red">'+
+											'<b>Code</b><p>'+error.responseJSON.code+
+											'</p><br/>'+
+											'<b>Error</b> <p>'+error.responseJSON.message+
+											'</p></font>'+
+									'</td>'+
+									'<td bgcolor="#cccc00">'+
+									'</tr>'
+							);
+
+							
+							
+							}
+					});
+
+					}		  
+			  });
+				 
+		   });
+				 
+			  
+					
+	</script>
+	<style>
+		table {
+		  font-family: arial, sans-serif;
+		  border-collapse: collapse;
+		  width: 25%;
+		  align:centre;
 		}
-  
-    },
-    error: function (error){
-	$('#displayonTable tr').html('');
-	$('#resultSize').html('0');
-	console.log(error.responseJSON.status)
-	console.log(error.responseJSON.code)
-	console.log(error.responseJSON.message)
-	console.log(error.responseJSON.display)
-	console.log(error.responseJSON.description)
-	console.log(error.responseJSON.apiPath)
-	$('#displayonTable tr:last').after('<tr><td bgcolor="#cccc00"><font color="red"> <b>Code</b>:'+error.responseJSON.code+'<br/> <b>Error</b>: '+error.responseJSON.message+'</font></td></tr>');
 
-	
-	
-	
-    }
-});
+		td, th {
+		  border: 1px solid #dddddd;
+		  text-align: left;
+		  padding: 8px;
+		}
 
-}		  
-          
-         
-           });
-         
-         });
-         
-      </script>
-	  
-<style>
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 25%;
-  align:centre;
-}
-
-td, th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-}
-
-tr:nth-child(even) {
-  background-color: #dddddd;
-}
-.scrollit {
-    overflow:scroll;
-    height:600px;
-}
-</style>
-   </head>
-   <body align='center'>
-<div align='center'>
-<p><h2>Start to type name in the input field to search the Phonenumber:</h2></p>  
-<input id="name" type="text" placeholder="Search name here..">
-</div>
-<br><br><br><br>
-<div class="scrollit">
-<table align='center'>
-  <thead>
-    <tr  style="background-color: #666699">
-    <th style="border: 5px"><font color = "#ffffff">Phone Number Datails</font>
-	<br/><hr width="110%"/><font color = "#ffffcc">Name</font></th>
-	<th style="border: 5px"><font color = "#ffffff">Result:<label id="resultSize">0</label></font>
-	<br/><hr width="100%"/><font color = "#ffffcc">Phone Number</font>	</th>
-  </tr>
-
-  </thead>
-  <tbody id="displayonTable">
- <tr>
- </tr>
-  
-  </tbody>
-</table>
-  </div>
-<p></p>
-
-   </body>
+		tr:nth-child(even) {
+		  background-color: #dddddd;
+		}
+		.scrollit {
+			overflow:scroll;
+			height:600px;
+		}
+	</style>
+</head>
+<body align='center'>
+	<div align='center'>
+		<p>
+			<h2>Start to type name in the input field to search the Phonenumber:</h2>
+		</p>
+		<input id="name" type="text" placeholder="Search name here..">
+		</div>
+		<br>
+			<br>
+				<br>
+					<br>
+						<div class="scrollit">
+							<table align='center'>
+								<thead>
+									<tr  style="background-color: #666699">
+										<th style="border: 5px">
+											<font color = "#ffffff">Phone Number Datails</font>
+											<br/>
+											<hr width="110%"/>
+											<font color = "#ffffcc">Name</font>
+										</th>
+										<th style="border: 5px">
+											<font color = "#ffffff">Result:
+											
+												<label id="resultSize">0</label>
+											</font>
+											<br/>
+											<hr width="100%"/>
+											<font color = "#ffffcc">Phone Number</font>
+										</th>
+									</tr>
+								</thead>
+								<tbody id="displayonTable">
+									<tr></tr>
+								</tbody>
+							</table>
+						</div>
+						<p></p>
+</body>
 </html>
