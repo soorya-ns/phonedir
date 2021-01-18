@@ -1,34 +1,18 @@
 package com.phonedirectory.repository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import com.phonedirectory.model.PhoneBean;
-import com.phonedirectory.util.PhoneNumberDirecory;
 
-@Component
-public class PhoneDirectoryRepository {
+@Repository
+public interface PhoneDirectoryRepository  extends JpaRepository<PhoneBean, Long> {
 	
-	@Autowired
-	PhoneNumberDirecory phoneNumberDirecory;
+	@Query("SELECT num FROM PhoneBean num WHERE lower(num.ownerName) LIKE lower(concat('%', :name, '%'))")
+	List<PhoneBean> searchByNameLike(@Param("name") String name);
 	
-	public List<String> searchByNumberLike(String number){
-		List<String> allList = findAll();
-		List<String> filteredList = allList.stream().filter(x -> x.contains(number)).collect(Collectors.toList());
-		return filteredList;
-	}
-	
-	public List<String> save(PhoneBean phone){
-		phoneNumberDirecory.addNumber(phone.getNumber());
-		return findAll();
-	}
-	
-	public List<String> findAll(){
-		return phoneNumberDirecory.findAll();
-	}
-	
-
 }

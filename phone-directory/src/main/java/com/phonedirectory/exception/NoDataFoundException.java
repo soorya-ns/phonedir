@@ -1,15 +1,15 @@
 package com.phonedirectory.exception;
 
-public class BadRequestException extends RuntimeException {
+public class NoDataFoundException extends RuntimeException {
+
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -2255612741051589045L;
-
+	private static final long serialVersionUID = 3184568514436349302L;
 	private String message;
 
-	public BadRequestException(String message) {
+	public NoDataFoundException(String message) {
 		this.message = message;
 	}
 

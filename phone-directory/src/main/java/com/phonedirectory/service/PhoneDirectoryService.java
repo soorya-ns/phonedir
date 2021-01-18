@@ -6,12 +6,10 @@ import com.phonedirectory.model.PhoneBean;
 
 public interface PhoneDirectoryService {
 	
-    List<String> addPhoneNumber(PhoneBean phone);
+    List<PhoneBean> getPhoneDetails();
 
-    List<String> getPhoneNumbers();
-
-    List<String> searchByKey(String key);
-
-	PhoneBean findByNumber(String number);
+	List<PhoneBean> searchByNameAsKey(String key);
+	
+	Boolean doSave(List<PhoneBean> phones);
 
 }

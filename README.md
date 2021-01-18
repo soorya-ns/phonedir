@@ -8,35 +8,26 @@ There are 4 directories:
         3. phonedir/ui
 
         ## RUN and Verify Phone Numbers in directory (Windows):
-                ## Pre-requisite: Java 8, Maven, MySQL(If you are running phonedir/phone-directory-msql app)
+                ## Pre-requisite: Java 8, Maven
                 
                 ## Build clean and Install
                         >>mvn clean install
-                        >>cd target
                     
                     ## Run One Server
-                    ## Case 01: phonedir/phone-directory
-                    ## Here Phonedirectory stored as Java Object
-                        >>java -jar phone-directory-withoutDB-1.0.0.jar
-                    
-                    ## Case 01: phonedir/phone-directory-mysql
-                    ## Here Phonedirectory stored as in MySQL Data base
-                        >>java -jar phone-directory-msql-1.0.0.jar
+                        >>mvn spring-boot:run
                 
                 
-                ## UI - Search PhoneNumber by start to type on the Page.
+                ## UI - Search Name by start to type on the Page.
 
                     ## Open index.html file in any of the browser
                     ## Start type on input box.
 
 
-   ### Note: If you Type  '88', Exepected Result :
-                       ##  Phone Number List ( 5 ), Here  '5' indicates total numbers available in the directory
-                       ##     8887766555
-                       ##     9887766555
-                       ##     6667768885
-                       ##     5977766888
-                       ##     5977768878
+   ### Note: If you Type  'Sa', Exepected Result :
+                       ##  Name aand Phone Number List ( 5 ), Here  '5' indicates total numbers available in the directory
+                       ##     Saranya 8887766555
+                       ##     Ninasa 9887766555
+                      
 
 
 ##### To Check whether given numbers are Anagrams or not and group it and show the result.
@@ -48,8 +39,8 @@ There are 4 directories:
                 ## Run the Code and Pass the OWrds list as below, If your are not passing the Workds the Program will consider default List which are
                 ## { "CAT", "DOG", "TAC", "MAD", "DAM", "AMD", "GOD", "SET" }
                     
-                    >> java CheckAnagrams  { "CAT", "DOG", "TAC", "MAD", "DAM", "AMD", "GOD", "SET" }
+                    >> java CheckAnagrams  CAT  DOG TAC MAD DAM AMD GOD SET
 
-                    Or 
+                    Or For default Array test
 
                     >> java CheckAnagram

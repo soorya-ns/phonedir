@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.phonedirectory.exception.BadRequestException;
 import com.phonedirectory.model.PhoneBean;
 import com.phonedirectory.service.PhoneDirectoryService;
 
@@ -25,34 +24,37 @@ public class PhoneDirectoryController {
 	@Autowired
 	PhoneDirectoryService phoneDirectoryService;
 	
-	@GetMapping(value = "/phone/{number}")
-	public ResponseEntity<List<String>> searchByKey(@PathVariable("number") String number){
-		List<String> list =  phoneDirectoryService.searchByKey(number);
+	/*
+	 * @Description: Search Phone Owner name by input as partial customer Name.
+	 * @Param : name
+	 * @return: List<PhoneBean>
+	 * */
+	@GetMapping(value = "/name/{name}")
+	public ResponseEntity<List<PhoneBean>> searchByNameAsKey(@PathVariable("name") String name){
+		List<PhoneBean> list =  phoneDirectoryService.searchByNameAsKey(name);
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	
-	
-	@GetMapping(value = "/phone")
-	public ResponseEntity<List<String>> getAllNumbers(){
-		List<String> list =  phoneDirectoryService.getPhoneNumbers();
+	/*
+	 * @Description: Get all the Phone number details existing in the Directory
+	 * @return: List<PhoneBean>
+	 * */
+	@GetMapping(value = "/all")
+	public ResponseEntity<List<PhoneBean>> getPhoneDetails(){
+		List<PhoneBean> list =  phoneDirectoryService.getPhoneDetails();
 		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
+	
+	/*
+	 * @Description: Bulk Addition of  Individual Phone number details
+	 * @Param : List of phones as in Request body
+	 * @return: Boolean
+	 * */
+	@PostMapping(value = "/phones")
+	public ResponseEntity<Boolean> addPhones(@RequestBody List<PhoneBean> phones){
+		Boolean result = phoneDirectoryService.doSave(phones);
+		return new ResponseEntity<>(result, HttpStatus.OK);
 		
 	}
 	
-	@PostMapping(value = "/phone")
-	public ResponseEntity<List<String>> addNumber(@RequestBody PhoneBean phone){
-		if (null != phone && null != phone.getNumber() && phone.getNumber().length()!=10) {
-			throw new BadRequestException("Phone Number must be 10 digit length");
-		}
-		List<String> list  = phoneDirectoryService.addPhoneNumber(phone);
-		return new ResponseEntity<>(list, HttpStatus.OK);
-		
-	}
-
-	
-	@GetMapping(value = "/healthcheck")
-	public ResponseEntity<String> healthCheck(){
-		return new ResponseEntity<>(String.valueOf(Boolean.TRUE), HttpStatus.OK);
-		
-	}
 }

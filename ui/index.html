@@ -7,12 +7,12 @@
 		
 			$('#displayonTable tr').html('');
 			$('#resultSize').html('0');
-			$("#phoneNumber").keyup(function(){
+			$("#name").keyup(function(){
          
-           var input = $("#phoneNumber").val();
-		   
+           var input = $("#name").val();
+		 if(input != '' && input != null && input.length > 0 && input != 'undefined'){  
 		   $.ajax({
-    url: 'http://localhost:8081/api/v1/phone/'+input,
+    url: 'http://localhost:8081/api/v1/name/'+input,
     headers: {
         'Content-Type': 'application/json'
     },
@@ -30,9 +30,9 @@
 		
 		$('#resultSize').html(result.length);
 		$.each(result, function(index, value) {
-		if('undefined'!=value){
-		$('#displayonTable tr:last').after('<tr><td>'+value+'</td></tr>');
-		}
+		
+		$('#displayonTable tr:last').after('<tr><td>'+value.ownerName+'</td><td>'+value.number+'</td></tr>');
+		
 		});
 		}
   
@@ -50,7 +50,7 @@
     }
 });
 
-		  
+}		  
           
          
            });
@@ -84,16 +84,20 @@ tr:nth-child(even) {
    </head>
    <body align='center'>
 <div align='center'>
-<p><h2>Start to type number in the input field to search the Phonenumber:</h2></p>  
-<input id="phoneNumber" type="text" placeholder="Search phone Number here.." maxlength="10" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+<p><h2>Start to type name in the input field to search the Phonenumber:</h2></p>  
+<input id="name" type="text" placeholder="Search name here..">
 </div>
 <br><br><br><br>
 <div class="scrollit">
 <table align='center'>
   <thead>
-  <tr>
-    <th>Phone Number List ( <label id="resultSize">0</label> ) </th>
+    <tr  style="background-color: #666699">
+    <th style="border: 5px"><font color = "#ffffff">Phone Number Datails</font>
+	<br/><hr width="110%"/><font color = "#ffffcc">Name</font></th>
+	<th style="border: 5px"><font color = "#ffffff">Result:<label id="resultSize">0</label></font>
+	<br/><hr width="100%"/><font color = "#ffffcc">Phone Number</font>	</th>
   </tr>
+
   </thead>
   <tbody id="displayonTable">
  <tr>
