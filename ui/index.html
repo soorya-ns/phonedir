@@ -20,8 +20,7 @@
     dataType: "json",
     data: {
     },
-    success: function (data) {
-	var result = eval('(' + data + ')');
+    success: function (result) {
 	$('#displayonTable tr').html('');
 	$('#resultSize').html('0');
 	if(result.length==0){
@@ -47,7 +46,7 @@
 	console.log(error.responseJSON.display)
 	console.log(error.responseJSON.description)
 	console.log(error.responseJSON.apiPath)
-	$('#displayonTable tr:last').after('<tr><td bgcolor="#cccc00"><font color="red">'+error.responseJSON.message+'</font></td></tr>');
+	$('#displayonTable tr:last').after('<tr><td bgcolor="#cccc00"><font color="red"> <b>Code</b>:'+error.responseJSON.code+'<br/> <b>Error</b>: '+error.responseJSON.message+'</font></td></tr>');
 
 	
 	
