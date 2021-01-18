@@ -20,7 +20,8 @@
     dataType: "json",
     data: {
     },
-    success: function (result) {
+    success: function (data) {
+	var result = eval('(' + data + ')');
 	$('#displayonTable tr').html('');
 	$('#resultSize').html('0');
 	if(result.length==0){
@@ -37,15 +38,19 @@
 		}
   
     },
-    error: function (error) {
+    error: function (error){
 	$('#displayonTable tr').html('');
 	$('#resultSize').html('0');
-	
-	if('undefined' === error.message || error.message === 'null' || error.status === 0){
-		$('#displayonTable tr:last').after('<tr><td bgcolor="#5D7B9D"><font color="red">Error Throwing from The Server</font></td></tr>');
-		
-	}
+	console.log(error.responseJSON.status)
+	console.log(error.responseJSON.code)
+	console.log(error.responseJSON.message)
+	console.log(error.responseJSON.display)
+	console.log(error.responseJSON.description)
+	console.log(error.responseJSON.apiPath)
+	$('#displayonTable tr:last').after('<tr><td bgcolor="#cccc00"><font color="red">'+error.responseJSON.message+'</font></td></tr>');
 
+	
+	
 	
     }
 });
