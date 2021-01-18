@@ -15,8 +15,7 @@ public class CheckAnagrams {
 	public static void main(String[] args) {
 
 		String[] words = { "CAT", "DOG", "TAC", "MAD", "DAM", "AMD", "GOD", "SET" };
-
-		if(null != args) {
+		if(null != args && args.length > 2) {
 			words = new String[args.length];
 			words = args;
 		}
